@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useHistory } from "react-router-dom";
 import "./styles.css";
+
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 
 export const LoginPage = () => {
 
@@ -8,12 +11,33 @@ export const LoginPage = () => {
 
     const {register, handleSubmit} = useForm();
 
-    const loginUser = (formVals) => {
-        console.log("Login submitted", formVals);
+    const history = useHistory();
+
+    const loginUser = async(formVals) => {
+        
+        try {
+            console.log("Login submitted", formVals);
+            const auth = getAuth();
+            const loginUser = await signInWithEmailAndPassword(auth, formVals.user, formVals.password);
+
+            history.push('/');
+        } catch(error) {
+            console.log("Error connecting to Firebase", error)
+        }
     }
 
-    const signUpUser = (formVals) => {
+    const signUpUser = async(formVals) => {
         console.log("Sign up user", formVals);
+        const auth = getAuth();
+
+        try {
+            const signUpUser = await createUserWithEmailAndPassword(auth, formVals.user, formVals.password);
+            console.log("New user was created", signUpUser);
+
+            history.push('/');
+        } catch (error) {
+            console.log("Error from Firebase", error)
+        }
     }
 
     return (

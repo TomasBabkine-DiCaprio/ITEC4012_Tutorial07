@@ -4,6 +4,8 @@ import {
 
 import { FaStore, FaShoppingCart} from 'react-icons/fa';
 
+import { Logout } from "../Logout";
+
 import "./styles.css"
 export const Navbar = () => {
     return (
@@ -14,6 +16,9 @@ export const Navbar = () => {
                 </li>
                 <li>
                     <NavLink activeClassName="nav-selected" to="/cart"> My Cart</NavLink>
+                </li>
+                <li>
+                    <Logout />
                 </li>
             </ul>
         </nav>
